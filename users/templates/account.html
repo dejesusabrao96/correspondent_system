@@ -1,0 +1,93 @@
+{% extends 'main/base.html' %}
+{% load widget_tweaks %}
+
+
+{% block content %}
+<header class="page-header">
+            <div class="container-fluid">
+              <h2 class="no-margin-bottom">Account</h2>
+            </div>
+        </header>
+          <!-- Breadcrumb-->
+          <div class="breadcrumb-holder container-fluid d-flex justify-content-between">
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'home' %}">Varanda</a></li>
+              <li class="breadcrumb-item active">Account</li>
+            </ul>
+            <button class="btn btn-outline-info btn-sm mr-2 mt-3 h6" style="height: 30px;color: blue;font-size: 0.7rem" onclick=self.history.back()><span class="fa fa-angle-left"></span> Back</button>
+          </div>
+          
+          <section class="dashboard-header">
+            <div class="container-fluid">
+              {% if messages %}
+                        {% for message in messages %} 
+                            <div id="divmessage" class="alert alert-{{ message.tags }} alert-dismissable">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                              {{message}}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+              <div class="row">
+                <div class="col-xl-4 col-md-4">
+                  <div class="card shadow-lg pt-3 rounded">
+                    <div class="card-header text-center">ACCOUNT INFO</div>
+                    <div class="card-body">
+                      <table class="table table-sm">
+                        <tr>
+                          <td style="font-size: 0.7rem">USERNAME</td>
+                          <td style="font-size: 0.8rem">: {{ user.username }}</td>
+                        </tr>
+                        <tr>
+                          <td style="font-size: 0.7rem">EMAIL</td>
+                          <td style="font-size: 0.8rem">: {{ user.email }}</td>
+                        </tr>
+                        <tr>
+                          <td style="font-size: 0.7rem">DATE CREATED</td>
+                          <td style="font-size: 0.8rem">: {{ user.date_joined | date:"F d Y" }}</td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="card-footer text-right">
+                      <div class="small"><a href="{% url 'change-password' %}">Change password!</a></div>
+                    </div>
+                  </div>
+                </div> <!--end card-md-6-->
+                
+                <div class="col-xl-8 col-md-8">
+                  <div class="card shadow-lg pt-3 rounded">
+                    <div class="card-header">UPDATE ACCOUNT</div>
+                    <div class="card-body">
+                      <form method="post" action="" novalidate>
+            {% csrf_token %}
+            <table class="table table-hover">
+            {% for field in u_form %}
+              <tr>
+                <div class="form-group">
+                <td width="20%"><label for="{{ field.id_for_label }}">{{field.label}}</label></td>
+                <td width="80%">{{field|add_class:'form-control'}}</td>
+                  {% for error in field.errors %}
+                    <span class="help-block">{{error}}</span>
+                  {% endfor %}
+                </div>
+              </tr>
+            {% endfor %}
+            </table>
+            <br>
+            <div class="form-group text-right">
+              <button class="btn btn-sm btn-warning" onclick=self.history.back()>
+                <span class="fa fa-angle-left"></span> Cancel
+              </button>
+              <button type="submit" name="save" class="btn btn-sm btn-success">
+                <span class="fa fa-save"></span> | Update
+              </button>
+              <!-- <a href="{% url 'documents-list' %}" class="btn btn-sm btn-warning">Cancel</a> -->
+              <!-- <input type="text" class="btn btn-sm btn-warning" value="Cancel" onclick=self.history.back()> -->
+            </div>
+          </form>
+                    </div>
+                  </div>
+                </div> <!--end card-md-6-->
+              </div> <!--end row-->
+            </div>
+          </section>
+{% endblock %}

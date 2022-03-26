@@ -1,0 +1,46 @@
+{% load static %}
+<nav class="side-navbar" style="background: linear-gradient(to bottom,green,#20c997);color: #20c997">
+        
+
+          <div class="sidebar-header d-flex align-items-center">
+            <div class="avatar"><img style="margin-bottom: -10px;margin-top: -30px "src="{% static 'img/anatl.png' %}" alt="..." class="img-fluid rounded-circle"></div>
+            <div class="title">
+              <h1 style="margin-bottom: -1px;margin-top: -35px" class="h2 text-white">ANATL, E.P</h1>
+            </div>
+          </div>
+          <hr style="margin-bottom: -1px;margin-top: -52px; background-color: #fff">
+          <!-- Sidebar Navidation Menus-->
+          
+          <ul class="list-unstyled">
+            <li class="{{home_active}}"><a href="{% url 'home' %}"> <i class="fa fa-home"></i>Varanda Vogal</a></li>
+           <li class="{{cat_active}}"><a href="#dropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-folder-open"></i>Karta </a>
+              <ul id="dropdownDropdown" class="collapse list-unstyled">
+                
+                <li style="color: #000"><a href="{% url 'documents-list' %}"><i class="fa fa-folder"></i>Karta Tama</a></li>
+                <li style="color: #000"><a href="{% url 'documents-sai-list' %}"><i class="fa fa-folder"></i>Karta Sai</a></li>
+                <li style="color: #000"><a href="{% url 'karta_interna_list' %}"><i class="fa fa-folder"></i>Karta Sai Interna</a></li>
+                <li style="color: #000"><a href="{% url 'documents-sai-list' %}"><i class="fa fa-folder"></i>Karta Responde</a></li>
+                
+              </ul>
+            </li>
+            <li class="{{chart_active}}"><a href="{% url 'charts' %}"> <i class="fa fa-bar-chart"></i>Grafiku </a></li>
+            <!-- <li class="{{chart_active}}"><a href="#"> <i class="fa fa-bar-chart"></i>Diresaun </a></li> -->
+            <!-- <li class="{{cat_active}}"><a href="#categorydropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-folder-open"></i>Doc. Category </a>
+              <ul id="categorydropdownDropdown" class="collapse list-unstyled">
+                {% for cat in categories %}
+                <li style="color: #000"><a href="{% url 'categories_doc' cat.hashed %}">{{cat.cat_name}}</a></li>
+                {% endfor %}
+                
+              </ul>
+            </li> -->
+            <!-- <li class="{{setting_active}}"><a href="{% url 'user-list' %}"> <i class="fa fa-cogs"></i>Settings </a></li> -->
+            <!-- <li class="{{funsionariu_active}}"><a href="{% url 'list-funsionariu' %}"> <i class="fa fa-users"></i>Funsionariu </a></li> -->
+            <!-- <li class="{{vogal_active}}"><a href="{% url 'list_vogal' %}"> <i class=" fa fa-user"></i> Vogal </a></li> -->
+         <!--  </ul><span class="heading">Extras</span>
+          <ul class="list-unstyled">
+            <li> <a href="#"> <i class="icon-flask"></i>Demo </a></li>
+            <li> <a href="#"> <i class="icon-screen"></i>Demo </a></li>
+            <li> <a href="#"> <i class="icon-mail"></i>Demo </a></li>
+            <li> <a href="#"> <i class="icon-picture"></i>Demo </a></li>
+          </ul> -->
+        </nav>

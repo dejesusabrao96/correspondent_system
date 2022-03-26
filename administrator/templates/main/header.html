@@ -1,0 +1,135 @@
+{% load static %}
+
+<header class="" style="background: linear-gradient(to bottom,green,#20c997);color: #20c997">
+        <nav class="navbar">
+          <!-- Search Box-->
+          <div class="search-box">
+            <button class="dismiss"><i class="icon-close"></i></button>
+            <form id="searchForm" action="#" role="search">
+              <input type="search" placeholder="What are you looking for..." class="form-control">
+            </form>
+          </div>
+          <div class="container-fluid">
+            <!--<img style="width:100%" height="130" src="{% static 'img/log.png' %}">-->
+            <div class="navbar-holder d-flex align-items-center justify-content-between" >
+              <!-- Navbar Header-->
+              <div class="navbar-header">
+                <!-- Navbar Brand --><a href="{% url 'home' %}" class="navbar-brand d-none d-sm-inline-block">
+                  <div class="brand-text d-none d-lg-inline-block"><span>Correspondent System </span><strong> ANATL, E.P</strong></div>
+                  <div class="brand-text d-none d-sm-inline-block d-lg-none"><strong>ANATL, E.P</strong></div></a>
+                <!-- Toggle Button--><a id="toggle-btn" href="#" class="menu-btn active"><span></span><span></span><span></span></a>
+              </div>
+              <!-- Navbar Menu -->
+              <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+                <!-- Search-->
+                <li class="nav-item d-flex align-items-center"><a id="search" href="#"><i class="icon-search"></i></a></li>
+                <!-- Notifications-->
+                
+                <!-- notifikasaun karta tama nian -->
+                <li class="nav-item dropdown"> 
+                  <a id="notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link">
+                    <i class="fa fa-bell-o"></i>
+                    <span class="badge bg-red badge-corner" id="notifBadge"></span>
+                    {% include 'notif_sound.html' %}
+                  </a>
+                  <ul aria-labelledby="notifications" class="dropdown-menu">
+                      <li><a rel="nofollow" href="{% url 'notif_list_tama' %}" class="dropdown-item"> 
+                          <div class="notification">
+                            <div class="notification-content"><i class="fa fa-tasks bg-info"></i>Karta Tama (<span class="text-info" id="notifBadgeKartaTama"></span>) </div>
+                          </div></a>
+                      </li>
+                      <hr>
+                      <li><a rel="nofollow" href="{% url 'notif_list_sai' %}" class="dropdown-item"> 
+                          <div class="notification">
+                            <div class="notification-content"><i class="fa fa-tasks bg-danger"></i>Karta Sai  (<span class="text-info" id="notifBadgeKartaSai"></span>) </div>
+                          </div></a>
+                      </li>
+                      <hr>
+                      <li><a rel="nofollow" href="{% url 'notif_list_responde' %}" class="dropdown-item"> 
+                          <div class="notification">
+                            <div class="notification-content"><i class="fa fa-tasks bg-primary"></i>Karta Responde  (<span class="text-info" id="notifBadgeRespondeKartaTama"></span>) </div>
+                          </div></a>
+                      </li>
+                      <hr>
+                      <li><a rel="nofollow" href="{% url 'notif_list_sai_interna' %}" class="dropdown-item"> 
+                          <div class="notification">
+                            <div class="notification-content"><i class="fa fa-tasks bg-primary"></i>Karta Sai Interna  (<span class="text-info" id="notifBadgeKartaSaiInterna"></span>) </div>
+                          </div></a>
+                      </li>
+
+                  </ul>
+                </li> <!-- Languages dropdown    -->
+
+                <li class="nav-item dropdown">
+                  <a id="languages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle">
+                    {% if request.user.is_staff %}
+                    <img src="{% static 'img/logo_sejd.png' %}" style="width: 20px;border-radius: 10px" alt="ANATL, EP">
+                    {% endif %}
+                    {% if not request.user.is_staff %}
+                    <b id="imajen" data-imajen-url="{% url 'user_imajen_ajax' %}" class="imajen_user">
+                    <img src="" style="width: 20px;border-radius: 10px" alt="ANATL, EP">
+                    </b>
+                    {% endif %}
+                    <b><span class="d-none d-sm-inline-block text-white" style="font-size: 0.9rem">{{request.user.username}}</span></b>
+                  </a>
+                  <ul aria-labelledby="languages" class="dropdown-menu">
+                    <li>
+                      <a rel="nofollow" href="{% url 'account-update' %}" class="dropdown-item">
+                        <i class="bg-orange fa fa-user fa-fw"></i>Account</a>
+                    </li>
+                    {% if not request.user.is_staff %}
+                    <li>
+                      <a rel="nofollow" href="{% url 'profile' %}" class="dropdown-item">
+                        <i class="bg-primary fa fa-user fa-fw"></i>Profile</a>
+                    </li>
+                    {% endif %}
+                    <li>
+                      <a rel="nofollow" href="{% url 'change-password' %}" class="dropdown-item">
+                        <i class="fa fa-edit fa-fw bg-info"></i>Change Password</a>
+                    </li>
+                    <li>
+                      <a rel="nofollow" href="{% url 'logout' %}" class="dropdown-item">
+                        <i class="fa fa-sign-out bg-danger"></i>Sign Out</a>
+                    </li>
+                  </ul>
+                </li>
+                <!-- Logout    -->
+                <!-- <li class="nav-item"><a href="login.html" class="nav-link logout"> <span class="d-none d-sm-inline">Logout</span><i class="fa fa-sign-out"></i></a></li> -->
+              </ul>
+            </div>
+          </div>
+        </nav>   
+</header>
+
+<!-- <script type="text/javascript">
+    var url = $("#notif").attr("data-notif-url");
+
+    // function refresh() {
+        $.ajax({
+          url: url,
+          data: {
+          },
+          success: function (data) {
+            $(".notif_data").html(data);
+          }
+        });
+    // };
+    // $(document).ready(function($) {
+      // refresh();
+      // setInterval("refresh()", 5000);
+    // })
+</script>
+ -->
+
+
+<script type="text/javascript">
+    var url = $("#imajen").attr("data-imajen-url");
+        $.ajax({
+          url: url,
+          data: {
+          },
+          success: function (data) {
+            $(".imajen_user").html(data);
+          }
+        });
+</script>

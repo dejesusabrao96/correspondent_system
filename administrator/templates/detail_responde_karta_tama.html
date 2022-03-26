@@ -1,0 +1,245 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+    <header class="page-header">
+            <div class="container-fluid">
+              <h2 class="no-margin-bottom">Tabela</h2>
+            </div>
+        </header>
+          <!-- Breadcrumb-->
+        <div class="breadcrumb-holder container-fluid d-flex justify-content-between">
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'home' %}">Varanda</a></li>
+              <li class="breadcrumb-item"><a href="{% url 'documents-list' %}">Lista Karta Responde</a></li>
+              <li class="breadcrumb-item active">Karta Responde</li>
+            </ul>
+            <button class="btn btn-outline-info btn-sm mr-2 mt-3 h6" style="height: 30px;color: blue;font-size: 0.7rem" onclick=self.history.back()><span class="fa fa-angle-left"></span> Back</button>
+        </div>
+<section class="tables"> 
+<div class="container-fluid">
+                    {% if messages %}
+                        {% for message in messages %} 
+                            <div id="divmessage" class="alert alert-{{ message.tags }} alert-dismissable">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                              {{message}}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+<div class="row">
+<div class="col-sm-10">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between">
+      <h4>Detallu Responde Karta Tama<i><u class="text-light bg-danger m-2 p-1">{{responde.respond_number}}</u></i></h4>
+      
+      
+      {% if request.user.is_director %}
+      <!-- Karik responde seidauk forward ba prezidente entaun send ba prezidente -->
+      {% if responde.forward_to_admin is not null %}
+      <a href="{% url 'ktr_send_to_admin' responde.hashed %}">Haruka ba Admin</a>
+      {% endif %}
+      {% endif %}
+      
+    </div>
+    <div class="card-body">
+      <div class="col-lg-12 mb-1 mb-1" style="color: #fff;background: #b5b9bd">
+        <label>Numeru Karta Tama : </label>
+      </div>
+      <p class="editable" data-id="{{dokumentu.id}}" data-type="date_respond" data-url="{% url 'liveDocSave' %}">{{responde.karta_tama.doc_number}}</p>
+
+      <div class="col-lg-12 mb-1 mb-1" style="color: #fff;background: #b5b9bd">
+        <label>Data responde : </label>
+      </div>
+      <p class="editable" data-id="{{responde.id}}" data-type="date_respond" data-url="{% url 'liveDocSave' %}">{{responde.date_respond}}</p>
+                            
+                            
+      <div class="col-lg-12 mb-1 mb-1" style="color: #fff;background: #b5b9bd">
+        <label>File Karta Tama : </label>
+      </div>
+      <div><a href="{{responde.karta_tama.file_name.url}}" target="_blank" data-id="{{responde.id}}" data-type="file_name" data-url="{% url 'liveDocSave' %}">{{responde.karta_tama.file_name}}</a>
+
+      <div class="col-lg-12 mb-1" style="color: #fff;background: #b5b9bd">
+        <label>Deskrisaun : </label>
+      </div>
+      <p class="editable" data-id="{{responde.id}}" data-type="deskrisaun" data-url="{% url 'liveDocSave' %}">{{responde.deskrisaun}}</p>
+      
+      
+      <!-- <div class="col-lg-12 mb-1" style="color: #fff;background: #b5b9bd">
+        <label>Sub Kategoria : </label>
+      </div>
+      <p>{{responde.sub_category}}</p> -->
+
+      {% if request.user.is_vogal %}
+      <div class="col-lg-12 mb-1" style="color: #fff;background: #b5b9bd">
+        <label>Despacho : </label>
+      </div>
+      <p>{{responde.karta_tama.president_despacho}}</p>
+
+      <div class="col-lg-12 mb-1" style="color: #fff;background: #b5b9bd">
+        <label>Despacho ba Diresaun : </label>
+      </div>
+      <p>{{responde.president_despacho_diresaun}}</p>
+      {% endif %}
+      {% if request.user.is_director %}
+      <div class="col-lg-12 mb-1" style="color: #fff;background: #b5b9bd">
+        <label>Despacho : </label>
+      </div>
+      <p>{{responde.karta_tama.president_despacho}}</p>
+
+      <div class="col-lg-12 mb-1" style="color: #fff;background: #b5b9bd">
+        <label>Despacho ba Diresaun : </label>
+      </div>
+      <p>{{responde.karta_tama.president_despacho_diresaun}}</p>
+      {% endif %}
+      
+      <!-- //card for pdf viewer -->
+      <br>
+      <br>
+  <div class="panel-body">
+  <div class="row">
+    <div class="col-lg-12">
+    <div class="panel mb-4">
+                <div class="panel-body" style="height:500px">
+      <div id="pdfviewer" style="height:100%"></div>
+    </div>
+        </div>
+    </div>
+    
+  </div>
+    </div>
+  </div>
+  <!-- //end card for pdf viewer -->
+  <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.min.css' %}">
+
+  <script src="{% static '/js/pdfobject.js' %}"></script>
+  <script>PDFObject.embed("{% static '' %}{{responde.karta_tama.file_name}}", "#pdfviewer");</script>
+
+      
+                              
+    </div>
+  </div>
+  <!-- <div class="col-lg-2">
+    <div class="card">
+      <div class="card-header bg-success" align="center">
+        <b class="text-white">Latest Docs</b>
+      </div>
+      <div class="card-body">
+        <ul class="list-unstyled">
+          {% for data in latest_docs %}
+            <li style="font-size: 0.8rem;"><a href="{% url 'detail_doc' data.hashed %}"><i class="fa fa-angle-right"></i> {{data.doc_number}}</a></li>
+          {% endfor %}
+        </ul>
+        
+      </div>
+    </div>
+  </div> -->
+</div>
+</div>
+</section>
+  <div class="container-fluid" style="margin-top: -30px">
+    <div class="row">
+      <div class="col-lg-10">
+        <div class="card">
+          <div class="card-header bg-secondary text-center">Traker Karta Responde</div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <div class="col-md-3">
+                <div class="text-center border p-1">Administrasaun</div>
+                <div class="p-3 text-center border">
+                  {% if dokumentu.admin_viewed %}
+                  <span class="badge badge-info text-light">&#10003</span>
+                  {% else %}
+                  <span class="text-muted">&#10003</span>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="text-center border p-1">Prezidente</div>
+                <div class="p-3 text-center border">
+                  {% if dokumentu.president_viewed %}
+                  <span class="badge badge-info text-light">&#10003</span>
+                  {% else %}
+                  <span class="text-muted">&#10003</span>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="text-center border p-1">Vogal</div>
+                <div class="p-3 text-center border">
+                  {% if dokumentu.vogal_viewed %}
+                  <span class="badge badge-info text-light">&#10003</span>
+                  {% else %}
+                  <span class="text-muted">&#10003</span>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="text-center border p-1">Diretor</div>
+                <div class="p-3 text-center border">
+                  {% if dokumentu.diretor_viewed %}
+                  <span class="badge badge-info text-light">&#10003</span>
+                  {% else %}
+                  <span class="text-muted">&#10003</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <script type="text/javascript">
+            $(document).ready(function () {
+              // action when dobleclick  
+              $(document).on("dblclick", ".editable", function () {
+                var value = $(this).text();
+                var input = "<input type='text' class='input-data form-control' value='"+value+"'>";
+                $(this).html(input);
+                $(this).removeClass("editable");
+              });
+
+              $(document).on("blur",".input-data",function () {
+                var value = $(this).val();
+                var p = $(this).parent("p");
+                $(this).remove();
+                p.html(value);
+                p.addClass("editable");
+                var type = p.data("type");
+                sendToServer(p.data("id"),value,type);
+              });
+              // remove editable bainhira hanehan enter
+              $(document).on("keypress",".input-data",function (e) {
+                var key = e.which;
+                if (key == 13) {
+                  var value = $(this).val();
+                  var p = $(this).parent("p");
+                  $(this).remove();
+                  p.html(value);
+                  p.addClass("editable");
+                  var type = p.data("type");
+                  sendToServer(p.data("id"),value,type);
+                }
+              });
+              // haruka data ba server ka database
+              function sendToServer(id,value,type) {
+                console.log(id);
+                console.log(value);
+                console.log(type);
+                var $doc  = $('.editable');
+                $.ajax({
+                  url:$doc.data("url"),
+                  type:"POST",
+                  data:{id:id,type:type,value:value},
+                })
+                .done(function(response) {
+                  console.log(response);
+                })
+                .fail(function(response) {
+                  console.log("Error Ocurred");
+                })
+              }
+
+            });
+        </script>
+{% endblock %}

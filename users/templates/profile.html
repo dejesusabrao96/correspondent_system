@@ -1,0 +1,172 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+		<header class="page-header">
+            <div class="container-fluid">
+              <h2 class="no-margin-bottom">User Profile</h2>
+            </div>
+        </header>
+          <!-- Breadcrumb-->
+        <div class="breadcrumb-holder container-fluid d-flex justify-content-between">
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+              <li class="breadcrumb-item active">User Profile</li>
+            </ul>
+            <button class="btn btn-outline-info btn-sm mr-2 mt-3 h6" style="height: 30px;color: blue;font-size: 0.7rem" onclick=self.history.back()><span class="fa fa-angle-left"></span> Back</button>
+        </div>
+<section class="tables">   
+    <div class="container-fluid">
+    				{% if messages %}
+                        {% for message in messages %} 
+                            <div id="divmessage" class="alert alert-{{ message.tags }} alert-dismissable">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                              {{message}}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+		<div class="row">
+                <div class="col-xl-4 col-md-4">
+                  	<div class="card mb-4 box-shadow" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+
+		              <div class="card-header text-center">
+		              	<h3><u>{{profile.naran_funsionariu}}</u></h3>
+		              </div>
+		              <div class="card-body">
+		              <img class="card-img" style="border-radius: 5px" src="{{profile.foto.url}}">
+		                <!-- <h4 class="lead"><a href="#">{{prifile.naran_funsionariu}}</a></h4> -->
+		                <!-- <p class="card-text text-center">{{profile.kargu.diresaun.diresaun}}</p> -->
+		              </div>
+		                <div class="d-flex card-footer justify-content-between align-item-center">
+		                  <small class="text-muted">{{profile.date_created}}</small>
+		                  <div class="btn-group">
+		                    <a href="#" class="btn btn-sm btn-outline-primary" role="button">Update</a>
+		                  </div>
+		                </div>
+		            </div>
+                  <div class="card shadow-lg pt-3 rounded">
+                    <div class="card-header text-center"><u>ACCOUNT INFO</u></div>
+                    <div class="card-body">
+                      <table class="table table-sm">
+                        <tr>
+                          <td style="font-size: 0.7rem">USERNAME</td>
+                          <td style="font-size: 0.8rem">: {{ user.username }}</td>
+                        </tr>
+                        <tr>
+                          <td style="font-size: 0.7rem">EMAIL</td>
+                          <td style="font-size: 0.8rem">: {{ user.email }}</td>
+                        </tr>
+                        <tr>
+                          <td style="font-size: 0.7rem">DATE CREATED</td>
+                          <td style="font-size: 0.8rem">: {{ user.date_joined | date:"F d Y" }}</td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="card-footer text-right">
+                      <div class="small"><a href="{% url 'change-password' %}">Change password!</a></div>
+                    </div>
+                  </div>
+                </div> <!--end card-md-6-->
+                <div class="col-xl-8 col-md-8">
+                  <div class="card shadow-lg pt-3 rounded">
+                    <div class="card-header text-center text-bold"><u>DADUS USER</u></div>
+                    <div class="card-text mb-4 bg-success text-center p-2">
+                    	<p style="color: #cee4d6; font-size: 0.9rem">This Content is using Live Editable Feature.<br>Just double click on the data You want to Update! </p>   
+                    </div>
+                    <div class="card-body mb-5">
+                      	<div class="col-lg-12 mb-1 mb-3" style="color: #fff;background: #b5b9bd">
+							<label>Naran User : </label>
+						</div>
+            {% if request.user.is_vogal %}
+						<p class="editable ml-4" data-id="{{profile.id}}" data-type="naran_funsionariu" data-url="{% url 'liveProfileSave' %}">{{profile.naran_vogal}}</p>
+            {% endif %}
+            {% if not request.user.is_vogal %}
+            <p class="editable ml-4" data-id="{{profile.id}}" data-type="naran_funsionariu" data-url="{% url 'liveProfileSave' %}">{{profile.naran_funsionariu}}</p>
+            {% endif %}
+
+						<div class="col-lg-12 mb-1 mb-3" style="color: #fff;background: #b5b9bd">
+							<label>Email : </label>
+						</div>
+						<p class="editable ml-4" data-id="{{profile.id}}" data-type="email" data-url="{% url 'liveProfileSave' %}">{{profile.user.email}}</p>
+
+            {% if request.user.is_vogal %}
+            <div class="col-lg-12 mb-1 mb-3" style="color: #fff;background: #b5b9bd">
+              <label>Vogal : </label>
+            </div>
+            {% endif %}
+            {% if request.user.is_vogal %}
+            <p class="editable ml-4" data-id="{{profile.id}}" data-type="naran_funsionariu" data-url="{% url 'liveProfileSave' %}">{{profile.vogal}}</p>
+            {% endif %}
+
+            {% if not request.user.is_vogal %}
+						<div class="col-lg-12 mb-1 mb-3" style="color: #fff;background: #b5b9bd">
+							<label>Diresaun Funsionariu : </label>
+						</div>
+						<p class="editable ml-4" data-id="{{profile.id}}" data-type="kargu" data-url="{% url 'liveProfileSave' %}">{{profile.kargu.diresaun.diresaun}}</p>
+
+						<div class="col-lg-12 mb-1 mb-3" style="color: #fff;background: #b5b9bd">
+							<label>Kargu / Pozisaun Funsionariu : </label>
+						</div>
+						<p class="editable ml-4" data-id="{{profile.id}}" data-type="subject" data-url="{% url 'liveProfileSave' %}">{{profile.kargu}}</p>
+            {% endif %}
+                    </div>
+                  </div>
+                </div> <!--end card-md-6-->
+              </div> <!--end row-->
+	</div>
+</section>
+<script type="text/javascript">
+            $(document).ready(function () {
+              // action when dobleclick  
+              $(document).on("dblclick", ".editable", function () {
+                var value = $(this).text();
+                var input = "<input type='text' class='input-data form-control' value='"+value+"'>";
+                $(this).html(input);
+                $(this).removeClass("editable");
+              });
+
+              $(document).on("blur",".input-data",function () {
+                var value = $(this).val();
+                var p = $(this).parent("p");
+                $(this).remove();
+                p.html(value);
+                p.addClass("editable");
+                var type = p.data("type");
+                sendToServer(p.data("id"),value,type);
+              });
+              // remove editable bainhira hanehan enter
+              $(document).on("keypress",".input-data",function (e) {
+                var key = e.which;
+                if (key == 13) {
+                  var value = $(this).val();
+                  var p = $(this).parent("p");
+                  $(this).remove();
+                  p.html(value);
+                  p.addClass("editable");
+                  var type = p.data("type");
+                  sendToServer(p.data("id"),value,type);
+                }
+              });
+              // haruka data ba server ka database
+              function sendToServer(id,value,type) {
+                console.log(id);
+                console.log(value);
+                console.log(type);
+                var $doc  = $('.editable');
+                $.ajax({
+                  url:$doc.data("url"),
+                  type:"POST",
+                  data:{id:id,type:type,value:value},
+                })
+                .done(function(response) {
+                  console.log(response);
+                })
+                .fail(function(response) {
+                  console.log("Error Ocurred");
+                })
+              }
+
+            });
+        </script>
+{% endblock  %}

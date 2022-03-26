@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{title}}</title>
+	<link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/style.default.css' %}" id="theme-stylesheet">
+</head>
+<body onload="javascript:window.print()">
+	<center><img src="http://localhost:8000{% static 'img/cop.png' %}"></center>
+	<div class="container">
+		<div class="text-center mt-4">
+			<u style="font-weight: bold;text-transform: uppercase;">Formul&aacute;riu Despacho</u>
+		</div>
+		<div class="container row d-flex justify-content-center">
+			<div class="col-sm-11">
+				<table class="table mt-4 table-bordered" style="font-family: Times New Roman">
+					<thead>
+						<tr>
+							<th class="bg-" width="20%">N&uacute;meru Karta</th>
+							<td>{{dokumentu.doc_number}}</td>
+						</tr>
+						<tr>
+							<th class="bg-">Asuntu Karta</th>
+							<td>{{dokumentu.subject}}</td>
+						</tr>
+						<tr>
+							<th class="bg-">Orijen Karta</th>
+							<td>{{dokumentu.orijen}}</td>
+						</tr>
+					</thead>
+				</table>
+				<table class="table mt-4 table-bordered" style="font-family: Times New Roman">
+					<tr>
+						<th class="">Despacho</th>
+						<th class="">Diresaun</th>
+						<th>Data Tama</th>
+						<th>Data Despaixu</th>
+					</tr>
+					<tr>
+						<th class="">{{dokumentu.president_despacho}}</th>
+						<th class="">{{dokumentu.president_despacho_diresaun}}</th>
+						<th>{{dokumentu.date_created}}</th>
+						<th>{{dokumentu.date_despacho}}</th>
+					</tr>
+				</table>
+			</div>
+		</div>
+			<!-- <p class="mt-4" style="font-size: 0.8rem">Formulariu Despacho ida ne'e utiliza hodi ....</p> -->
+		<footer>
+			<div style="float: right;margin-right: 50px" class="mt-5">
+				<!-- <p class="mb-5">Dili, 12/01/2022</p> -->
+				<p class="mb-5">Dili, {{dokumentu.date_despacho}}</</p>
+				<p style="font-weight: bold;">(<u>{{presidente.naran_funsionariu}}</u>)</p>
+			</div>
+		</footer>
+	</div>
+
+</body>
+</html>

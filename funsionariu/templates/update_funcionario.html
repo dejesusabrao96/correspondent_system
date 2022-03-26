@@ -1,0 +1,122 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+		<!-- <header class="page-header">
+            <div class="container-fluid">
+              <h2 class="no-margin-bottom">{{title}}</h2>
+            </div>
+        </header> -->
+          <!-- Breadcrumb-->
+        <div class="breadcrumb-holder container-fluid d-flex justify-content-between">
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'home' %}">Karta</a></li>
+              <li class="breadcrumb-item"><a href="{% url 'list_diresaun' %}">Lista Funsionariu</a></li>
+              <li class="breadcrumb-item active">{{title}}</li>
+            </ul>
+            <button class="btn btn-outline-info btn-sm mr-2 mt-3 h6" style="height: 30px;color: blue;font-size: 0.7rem" onclick=self.history.back()><span class="fa fa-angle-left"></span> Back</button>
+        </div>
+<section class="tables">   
+    <div class="container-fluid">
+    				{% if messages %}
+                        {% for message in messages %} 
+                            <div id="divmessage" class="alert alert-{{ message.tags }} alert-dismissable">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                              {{message}}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+		<div class="row">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                	<h2><p>Formulariu Funcionario {{title}}</p></h2>
+					<form action="" method="POST" id="indexForm" data-diresaun-url="{% url 'ajax_load_kargu' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row col-lg-12">
+            <table class="table table-hover">
+              <tr>
+                  <td><label>Naran Funsionariu : </label></td>
+                  <td>{{form.naran_funsionariu}}</td>
+                  <!--<td><input class="form-control" type="text" name="naran" required>{{form.naran_funsionariu}}</td>-->
+              </tr>
+              <!--<tr>
+                  <td><label>Email : </label></td>
+                  <td><input class="form-control" type="email" name="email" required></td>
+              </tr>-->
+              <!-- <tr>
+                  <td><label>Vogal : </label></td>
+                  <td><select name="vogal" class="form-control custom-select">
+                    <option value="">---Select Vogal---</option>
+                    {% for i in vogal %}
+                    <option value="{{i.id}}">{{i.vogal}}</option>
+                    {% endfor %}
+                  </select></td>
+              </tr> -->
+              <!--<tr>
+                  <td><label>Diresaun / Unidade : </label></td>
+                  <td>{{form.diresaun}}</td>
+              </tr>-->
+              <tr>
+                  <td><label>Kargu / Pozisaun : </label></td>
+                  <td>{{form.kargu}}</td>
+                  <!--<td>
+                    <select name="kargu" id="kargu" class="form-control custom-select"></select>
+                  </td>-->
+              </tr>           
+              <tr>
+              <tr>
+                  <td><label>Upload File : </label></td>
+                  <td>{{form.foto}}</td>
+                  <!--<td><input class="form-control" type="file" name="foto" required></td>-->
+              </tr>
+              <tr>
+					<td><label>User Level : </label></td>
+					<td>{{form.user}}</td>
+				</tr>
+            </table>
+            <br>
+            <div class="form-group text-right">
+              <button class="btn btn-sm btn-warning" onclick=self.history.back()>
+                <span class="fa fa-angle-left"></span> Cancel
+              </button>
+              <!-- <button type="submit" class="btn btn-sm btn-success">
+                <span class="fa fa-save"></span> | Save
+              </button> -->
+              <button type="submit" name="save_and_add_another" class="btn btn-sm btn-default">
+                <span class="fa fa-save"></span> | Save and Add Another
+              </button>
+              <button type="submit" name="save" class="btn btn-sm btn-success">
+                <span class="fa fa-save"></span> | Save
+              </button>
+              <!-- <a href="{% url 'documents-list' %}" class="btn btn-sm btn-warning">Cancel</a> -->
+            </div>
+          </form>
+				</div>
+			   </div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!--<script type="text/javascript">
+  $("#diresaun").change(function(){
+    var url = $("#indexForm").attr("data-diresaun-url");
+    var diresaunid = $(this).val();
+
+    $.ajax({
+      url: url,
+      data: {
+        'diresaun': diresaunid
+      },
+      success: function (data) {
+        $("#kargu").html(data);
+      }
+    });
+
+  });
+
+</script>-->
+
+{% endblock  %}

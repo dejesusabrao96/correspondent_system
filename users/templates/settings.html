@@ -1,0 +1,273 @@
+{% extends 'main/base.html' %}
+{% block content %}
+        <header class="page-header">
+            <div class="container-fluid">
+              <h2 class="no-margin-bottom">Settings</h2>
+            </div>
+        </header>
+          <!-- Breadcrumb-->
+          <div class="breadcrumb-holder container-fluid d-flex justify-content-between">
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'home' %}">Varanda</a></li>
+              <li class="breadcrumb-item active">Settings</li>
+            </ul>
+            <button class="btn btn-outline-info btn-sm mr-2 mt-3 h6" style="height: 30px;color: blue;font-size: 0.7rem" onclick=self.history.back()><span class="fa fa-angle-left"></span> Back</button>
+          </div>
+          <div class="container-fluid mt-3">
+              <ul class="nav nav-tabs bg-default" role="tablist">
+                <li class="nav-item">
+                  <a style="font-size: 0.8rem" class="nav-link active" data-toggle="tab" href="#home">Lista Utilizador</a>
+                </li>
+                <!-- <li class="nav-item">
+                  <a style="font-size: 0.8rem" class="nav-link" data-toggle="tab" href="#mane">Loged In User</a>
+                </li> -->
+                <li class="nav-item">
+                  <a style="font-size: 0.8rem" class="nav-link" data-toggle="tab" href="#feto">Utilizador Aktual</a>
+                </li>
+              </ul>
+          </div>
+          <div class="tab-content">
+            <div id="home" class="container tab-pane active">
+              <section class="tables">   
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="card">
+                        <div class="card-close">
+                          <div class="dropdown">
+                            <!-- <a href="{% url 'add_funsionariu' %}" title="Add Funcionario" class="btn btn-primary btn-sm" style="border-radius: 19px"><i class="fa fa-plus"></i></a> -->
+                            <!-- <a type="button" id="closeCard1" title="Exports" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><b class="btn btn-success btn-sm">Exports <i class="fa fa-angle-down"></i></b></a> -->
+                            <!-- <div aria-labelledby="closeCard1" class="dropdown-menu dropdown-menu-right has-shadow">
+                              <a href="{% url 'pdf_docs' %}" target="_blank" class="dropdown-item"> <i class="fa fa-file"></i>PDF</a>
+                              <a href="#" class="dropdown-item"> <i class="fa fa-file"></i>CSV</a>
+                              <a href="#" class="dropdown-item"> <i class="fa fa-file"></i>XLS</a>
+                            </div> -->
+
+                          </div>
+                        </div>
+                        <div class="card-header d-flex align-items-center">
+                          <h3 class="h4">Lista Utilizador</h3>
+                        </div>
+                        <div class="card-body">
+                          <div class="table-responsive">
+                            <table id="table_1"  class="table table-hover table-striped table-bordered">
+                          <thead>
+                            <tr>
+                              <th>No</th>
+                              <th>Naran</th>
+                              <th>Email</th>
+                              <th>Diresaun</th>
+                              <th>Status User</th>
+                              <!-- <th>User Group</th> -->
+                              <th>Data Registu</th>
+                              <th>Data Login</th>
+                              <th width="15%">Aksaun</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for data in userlist %}
+                            <tr>
+                              <th scope="row">{{ forloop.counter }}</th>
+                              <td>{{ data.username }}</td>
+                              <td>{{ data.email }}</td>
+                              <td>{{ data.kargu.diresaun }}</td>
+                              <td>{% if data.is_active %}<center><span class="badge badge-secondary">Active</span></center>{% else %}<center><span class="badge badge-warning">Not Active{% endif %}</span></center></td>
+                              <!-- <td>{% for group in data.groups.all %}{{ group }}{% endfor %}</td> -->
+                              <td>{{ data.date_joined | date:"F d Y"}}</td>
+                              <td>{{ data.last_login }}</td>
+                              <td>
+                              <a href="{% url 'user-list'  %}" class="btn btn-sm btn-secondary" title="Detail">
+                                  <i class="fa fa-eye"></i></a> 
+                                  <a href="" class="btn btn-sm btn-primary" title="Update">
+                                    <i class="fa fa-pencil"></i>
+                                  </a>
+                                     <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-{{ data.id }}" style="text-decoration: none">
+                                      <i class="fa fa-trash"></i>
+                                     </button>
+                              </td>
+
+                              <div class="modal fade" id="delete-{{ data.id}}"><!-- modal -->
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                      <h4 class="modal-title">Hamos User</h4>
+                                      <button type="button" class="close" data-dismiss="modal">X</button>
+                                    </div>
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                      Ita Boot hakarak hamoos Utilizador ho username {{ data.username | upper }}?
+                                    </div>
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                                      <a href="{% url 'home' %}" class="btn btn-info">Yes</a>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div><!-- endmodal -->
+                            </tr>
+                            {% endfor %}
+
+                          </tbody>
+                        </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                            </div>
+
+              </section>
+             
+            </div>
+            <!-- tab 2 -->
+            <div id="mane" class="container tab-pane fade">
+              <section class="dashboard-header">
+                <div class="container-fluid">
+                  <div class="row">
+                    <!-- Statistics -->
+                    <div class="statistics col-lg-4 col-12">
+                      <div class="statistic d-flex align-items-center bg-white has-shadow">
+                        <div class="icon bg-green">
+                          <i class="fa fa-tasks"></i>
+                        </div>
+                        <div class="text" style="font-size: 0.6rem">
+                          <strong>Category</strong>
+                          <br>
+                          <br>
+                          <a href="{% url 'category-list' %}">
+                            <small style="font-size: 0.7rem;color: #fff" class="badge badge-secondary">
+                              <span class="fa fa-eye"></span> Hare'e</small>
+                            </a>
+                          <a href="{% url 'add-category' %}" title="Adisiona Category">
+                            <small style="font-size: 0.7rem;color: #fff" class="badge badge-primary">
+                              <span class="fa fa-plus"></span> Adisona</small>
+                            </a>
+                        </div>
+                      </div>
+                     
+                      <div class="statistic d-flex align-items-center bg-white has-shadow">
+                        <div class="icon bg-red"><i class="fa fa-tasks"></i></div>
+                        <div class="text" style="font-size: 0.6rem">
+                          <strong>Documents</strong>
+                          <br>
+                          <br>
+                          <a href="{% url 'documents-list' %}" title="View Document">
+                            <small style="font-size: 0.7rem;color: #fff" class="badge badge-secondary">
+                              <span class="fa fa-eye"></span> View</small>
+                            </a>
+                          <a href="{% url 'add-documents' %}" title="Adisiona Document">
+                            <small style="font-size: 0.7rem;color: #fff" class="badge badge-primary">
+                              <span class="fa fa-plus"></span> Add</small>
+                            </a>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Line Chart            -->
+                    <div class="chart col-lg-6 col-12">
+                      <div class="line-chart bg-white d-flex align-items-center justify-content-center has-shadow">
+                        <canvas id="lineCahrt"></canvas>
+                      </div>
+                    </div>
+                
+                  </div>
+                </div>
+              </section>
+            </div>
+            <!-- tab 3 -->
+            <div id="feto" class="container tab-pane fade">
+              <section class="tables">   
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="card">
+                        <div class="card-close">
+                          <div class="dropdown">
+                            <a href="{% url 'add-documents' %}" title="Add Document" class="btn btn-primary btn-sm" style="border-radius: 19px"><i class="fa fa-plus"></i>
+                            </a>
+                            
+
+                          </div>
+                        </div>
+                        <div class="card-header d-flex align-items-center">
+                          <h3 class="h4">User List</h3>
+                        </div>
+                        <div class="card-body">
+                          <div class="table-responsive">
+                            <table id="table_1"  class="table table-hover table-striped table-bordered">
+                          <thead>
+                            <tr>
+                              <th>No</th>
+                              <th>Username</th>
+                              <th>Email</th>
+                              <th>User Status</th>
+                              <!-- <th>User Group</th> -->
+                              <th>Date Created</th>
+                              <th>Last Login</th>
+                              <th width="15%">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for data in userlist %}
+                            <tr>
+                              <th scope="row">{{ forloop.counter }}</th>
+                              <td>{{ data.username }}</td>
+                              <td>{{ data.email }}</td>
+                              <td>{% if data.is_active %}<center>
+                                <span class="badge badge-secondary">Active</span>
+                              </center>{% else %}<center>
+                                <span class="badge badge-warning">Not Active{% endif %}</span>
+                              </center>
+                            </td>
+                              <!-- <td>{% for group in data.groups.all %}{{ group }}{% endfor %}</td> -->
+                              <td>{{ data.date_joined | date:"F d Y"}}</td>
+                              <td>{{ data.last_login }}</td>
+                              <td>
+                                <a href="" class="btn btn-sm btn-secondary" title="Detail">
+                                  <i class="fa fa-eye"></i>
+                                </a> 
+                                <a href="" class="btn btn-sm btn-primary" title="Update">
+                                  <i class="fa fa-pencil"></i>
+                                </a> 
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-{{ data.id }}" style="text-decoration: none">
+                                  <i class="fa fa-trash"></i>
+                                </button>
+                              </td>
+
+                              <div class="modal fade" id="delete-{{ data.id}}"><!-- modal -->
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                      <h4 class="modal-title">Delete User</h4>
+                                      <button type="button" class="close" data-dismiss="modal">X</button>
+                                    </div>
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                      Ita Boot hakarak hamoos Utilizador ho username {{ data.username | upper }}?
+                                    </div>
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                                      <a href="{% url 'home' %}" class="btn btn-info">Yes</a>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div><!-- endmodal -->
+                            </tr>
+                            {% endfor %}
+
+                          </tbody>
+                        </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+{% endblock %}

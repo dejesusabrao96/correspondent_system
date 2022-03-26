@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Correspondent | {{title}}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <!-- <script src="{% static 'js/jquery.min.js' %}"></script> -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'datatables/jquery.datatables.css' %}">
+  
+    <script type="text/javascript" charset="utf8" src="{% static 'datatables/jquery.datatables.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}">
+    <!-- Fontastic Custom icon font-->
+    <link rel="stylesheet" href="{% static 'css/fontastic.css' %}">
+    <!-- Google fonts - Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="{% static 'css/style.default.css' %}" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="{% static 'img/anatl.png' %}">
+</head>
+<body onload="javascript:window.print()">
+	<center><img src="http://localhost:8000{% static 'img/cop.png' %}" width="85%"></center>
+	<div class="container">
+		<div class="text-center mt-3">
+			<u style="font-weight: bold;text-transform: uppercase;">Relat&oacute;riu {{tipu_karta}}</u><br>
+			<div class="text-right mt-3">
+			<small><b>{{titulu_kategoria}}</b></small>
+			</div>
+		</div>
+		<div class="row">
+	        <div class="col-lg-12">
+	          <div class="card">
+	            <div class="card-header d-flex align-items-end">
+	            	<b>Total Karta : {{dadusKarta|length}}</b>
+	            </div>
+	            <div class="card-body">
+	              <!-- <div class="card-text mb-4 bg-secondary text-center p-4">
+	                This Table is using 
+	                <u class="text-white">live editable feature</u>, 
+	                which you can update data by double click in the column you want to update!
+	              </div> -->
+	              <div class="">
+	                <table class="" border="1" id="table_1">
+	                  <thead class="thead-dark">
+	                    <tr>
+	                      <th class="p-2">No</th>
+	                      <th class="p-2">Nu. Karta</th>
+	                      <th class="p-2">Assuntu Karta</th>
+	                      <th class="p-2">Data Sai</th>
+	                      <th class="p-2">Orijen</th>
+	                      <th class="p-2">Categoria</th>
+	                      <th class="p-2">Klasifikasaun</th>
+	                      <th class="p-2">Destinu</th>
+	                      <th class="p-2">Diretor Viewed</th>
+	                      <th class="p-2">Vogal Viewed</th>
+	                      <th class="p-2">Prezidente Viewed</th>
+	                      <th class="p-2">Admin Viewed</th>
+	                    </tr>
+	                  </thead>
+	                  <tbody>
+	                    {% for data in dadusKarta %}
+	                    <tr>
+	                      <th scope="row" class="text-center">{{forloop.counter}}</th>
+	                      <td class="p-2">{{data.doc_number}}</td>
+	                      <td class="p-2">{{data.subject}}</td>
+	                      <td class="p-2">{{data.date_created}}</td>
+	                      <td class="p-2">{{data.orijen}}</td>
+	                      <td class="p-2">{{data.category}}</td>
+	                      <td class="p-2">{{data.klasifikasaun}}</td>
+	                      <td class="p-2">{{data.destinu}}</td>
+	                      <td class="p-2 text-center">{% if data.diretor_viewed %}<span>&#10003;</span>{%else%}{%endif%}</td>
+	                      <td class="p-2 text-center">{% if data.vogal_viewed %}<span>&#10003;</span>{%else%}{%endif%}</td>
+	                      <td class="p-2 text-center">{% if data.president_viewed %}<span>&#10003;</span>{%else%}{%endif%}</td>
+	                      <td class="p-2 text-center">{% if data.admin_viewed %}<span>&#10003;</span>{%else%}{%endif%}</td>
+	                    </tr>
+	                    {% endfor %}
+	                  </tbody>
+	                </table>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+		<footer>
+			<div style="float: right;margin-right: 50px" class="mt-5">
+				<!-- <p class="mb-5">Dili, 12/01/2022</p> -->
+				<p class="mb-5">Dili, {{currentDate}}</</p>
+				<p style="font-weight: bold;">(<i><u>{{presidente.naran_funsionariu}}</u></i>)</p>
+			</div>
+		</footer>
+	</div>
+	
+</body>
+</html>

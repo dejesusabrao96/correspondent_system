@@ -1,0 +1,236 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+		<header class="page-header">
+            <div class="container-fluid">
+              <h2 class="no-margin-bottom">Tabela</h2>
+            </div>
+        </header>
+          <!-- Breadcrumb-->
+        <div class="breadcrumb-holder container-fluid d-flex justify-content-between">
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'home' %}">Varanda</a></li>
+              <li class="breadcrumb-item"><a href="{% url 'documents-sai-list' %}">Lista Karta Sai</a></li>
+              <li class="breadcrumb-item active">Karta Sai</li>
+            </ul>
+            <button class="btn btn-outline-info btn-sm mr-2 mt-3 h6" style="height: 30px;color: blue;font-size: 0.7rem" onclick=self.history.back()><span class="fa fa-angle-left"></span> Back</button>
+        </div>
+<section class="tables">   
+<div class="container-fluid">
+                    {% if messages %}
+                        {% for message in messages %} 
+                            <div id="divmessage" class="alert alert-{{ message.tags }} alert-dismissable">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                              {{message}}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+<div class="row">
+<div class="col-sm-10">
+	<div class="card">
+		<div class="card-header d-flex justify-content-between">
+			<h4>Detallu Karta Sai<i><u class="text-light bg-danger m-2 p-1">{{dokumentusai.doc_number}}</u></i></h4>
+      {% if request.user.is_vogal %}
+      {% if not dokumentusai.forward_to_president %}
+      <a href="{% url 'kts_send_to_pre' dokumentusai.hashed %}">Send to Pre</a>
+      {% endif %}
+      {% endif %}
+      {% if request.user.is_prezidente %}
+      {% if not dokumentusai.forward_to_admin %}
+      <a href="{% url 'kts_send_to_admin' dokumentusai.hashed %}">Hatutan ba Admin</a>
+      {% endif %}
+      {% endif %}
+      {% if request.user.is_secretary %}
+      {% if not dokumentusai.president_despacho %}
+      <a href="{% url 'kts_send_to_pre' dokumentusai.hashed %}">Hatutan ba Pre.</a>
+      {% endif %}
+      {% endif %}
+      {% if request.user.is_director %}
+      {% if dokumentusai.forward_to_vogal %}
+      <a href="{% url 'kts_send_to_vogal' dokumentusai.hashed %}">Haruka ba Vogal</a>
+      {% endif %}
+      {% endif %}
+		</div>
+		<div class="card-body">
+			<div class="col-lg-12 mb-1 mb-1" style="color: #fff;background: #b5b9bd">
+				<label>Asuntu Karta: </label>
+			</div>
+			<p class="editable" data-id="{{dokumentusai.id}}" data-type="subject" data-url="{% url 'liveDocSave' %}">{{dokumentusai.subject}}</p>
+      <!--<div class="col-lg-12 mb-1" style="color: #fff;background: #b5b9bd">
+        <label>Orijen Karta : </label>
+      </div>
+      <p class="editable" data-id="{{dokumentu.id}}" data-type="orijen" data-url="{% url 'liveDocSave' %}">{{dokumentu.orijen}}</p>-->
+																						
+			<div class="col-lg-12 mb-1" style="color: #fff;background: #b5b9bd">
+				<label>Data Sai : </label>
+			</div>
+			<p class="editable" data-id="{{dokumentusai.id}}" data-type="date_created" data-url="{% url 'liveDocSave' %}">{{dokumentusai.date_created}}</p>
+
+      <div class="col-lg-12 mb-1" style="color: #fff;background: #b5b9bd">
+        <label>Klasifikasaun Karta : </label>
+      </div>
+      <p class="editable" data-id="{{dokumentusai.id}}" data-type="klasifikasaun" data-url="{% url 'liveDocSave' %}">{{dokumentusai.klasifikasaun}}</p>
+      
+
+      <div class="col-lg-12 mb-1" style="color: #fff;background: #b5b9bd">
+        <label>Orijen Karta : </label>
+      </div>
+      <p>{{dokumentusai.orijen}}</p>
+
+       <div class="col-lg-12 mb-1" style="color: #fff;background: #b5b9bd">
+        <label>Destinasaun : </label>
+      </div>
+      <p>{{dokumentusai.destinu}}</p>
+
+			<!-- //card for pdf viewer -->
+			<br>
+			<br>
+	<div class="panel-body">
+	<div class="row">
+		<div class="col-lg-12">
+		<div class="panel mb-4">
+                <div class="panel-body" style="height:500px">
+			<div id="pdfviewer" style="height:100%"></div>
+		</div>
+        </div>
+		</div>
+		
+	</div>
+    </div>
+	</div>
+	<!-- //end card for pdf viewer -->
+	<link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.min.css' %}">
+
+	<script src="{% static '/js/pdfobject.js' %}"></script>
+	<script>PDFObject.embed("{% static '' %}{{dokumentusai.file_name}}", "#pdfviewer");</script>
+
+			
+															
+		</div>
+	</div>
+	<div class="col-lg-2">
+		<div class="card">
+			<div class="card-header bg-success" align="center">
+				<b class="text-white">Latest Letter</b>
+			</div>
+			<div class="card-body">
+				<ul class="list-unstyled">
+					{% for context in latest_docs_sai %}
+						<li style="font-size: 0.8rem;"><a href="{% url 'detail-doc-sai' context.hashed %}"><i class="fa fa-angle-right"></i> {{context.doc_number}}</a></li>
+					{% endfor %}
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</section>
+ <div class="container-fluid" style="margin-top: -30px">
+    <div class="row">
+      <div class="col-lg-10">
+        <div class="card">
+          <div class="card-header bg-secondary text-center">Traker Karta Sai</div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <div class="col-md-3">
+                <div class="text-center border p-1">Diretor</div>
+                <div class="p-3 text-center border">
+                  {% if dokumentusai.status == 'Saved' %}
+                  <span class="badge badge-info text-light">&#10003</span>
+                  {% else %}
+                  <span class="text-muted">&#10003</span>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="text-center border p-1">Vogal</div>
+                <div class="p-3 text-center border">
+                  {% if dokumentusai.vogal_viewed %}
+                  <span class="badge badge-info text-light">&#10003</span>
+                  {% else %}
+                  <span class="text-muted">&#10003</span>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="text-center border p-1">Prezidente</div>
+                <div class="p-3 text-center border">
+                  {% if dokumentusai.president_viewed %}
+                  <span class="badge badge-info text-light">&#10003</span>
+                  {% else %}
+                  <span class="text-muted">&#10003</span>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="text-center border p-1">Administrasaun</div>
+                <div class="p-3 text-center border">
+                  {% if dokumentusai.admin_viewed %}
+                  <span class="badge badge-info text-light">&#10003</span>
+                  {% else %}
+                  <span class="text-muted">&#10003</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+		<script type="text/javascript">
+            $(document).ready(function () {
+              // action when dobleclick  
+              $(document).on("dblclick", ".editable", function () {
+                var value = $(this).text();
+                var input = "<input type='text' class='input-data form-control' value='"+value+"'>";
+                $(this).html(input);
+                $(this).removeClass("editable");
+              });
+
+              $(document).on("blur",".input-data",function () {
+                var value = $(this).val();
+                var p = $(this).parent("p");
+                $(this).remove();
+                p.html(value);
+                p.addClass("editable");
+                var type = p.context("type");
+                sendToServer(p.context("id"),value,type);
+              });
+              // remove editable bainhira hanehan enter
+              $(document).on("keypress",".input-data",function (e) {
+                var key = e.which;
+                if (key == 13) {
+                  var value = $(this).val();
+                  var p = $(this).parent("p");
+                  $(this).remove();
+                  p.html(value);
+                  p.addClass("editable");
+                  var type = p.context("type");
+                  sendToServer(p.context("id"),value,type);
+                }
+              });
+              // haruka data ba server ka database
+              function sendToServer(id,value,type) {
+                console.log(id);
+                console.log(value);
+                console.log(type);
+                var $doc  = $('.editable');
+                $.ajax({
+                  url:$doc.context("url"),
+                  type:"POST",
+                  context:{id:id,type:type,value:value},
+                })
+                .done(function(response) {
+                  console.log(response);
+                })
+                .fail(function(response) {
+                  console.log("Error Ocurred");
+                })
+              }
+
+            });
+        </script>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Correspondent | {{title}}</title>
+        <style type="text/css">
+           
+            
+            .title span {
+                color: #007cae;
+            }
+            .details {
+                text-align: left !important;
+                /*margin-left: 40%;*/
+            }
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+        </style>
+    <link rel="shortcut icon" href="http://localhost:8000{% static 'img/anatl.png' %}">
+        
+    </head>
+    <body>
+        <div class='wrapper'>
+            <center><img style="margin-bottom: -10px;margin-top: -1px " src="http://localhost:8000{% static 'img/cop.PNG' %}" ></center>
+        <br>
+        <b><center><u style="font-size: 1.3rem">Lista Karta Sira</u></center></b>
+                <img src="static/img/logo_sejd.png" style="width: 200px;border-radius: 10px" alt="ANATL, E.P"/>
+        <br>
+        <table width="100%" border="1">
+            <thead>
+                <tr style="background-color: rgb(185, 169, 169)">
+                    <th width="10%" style="padding: 2px">No</th>
+                    <th width="50%">Nu. Karta</th>
+                    <th width="50%">Assuntu Karta</th>
+                    <th width="50%">Orijen</th>
+                    <th width="50%">Data</th>
+                    <th width="50%">Simu Husi</th>
+                    <th width="50%">Klasifikasaun</th>
+                    <th width="50%">Kategoria</th>
+                    <th width="50%">Destinu</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in documents %}
+                <tr style="padding: 2px;font-size: 0.9em">
+                    <td style=""><center>{{forloop.counter}}</center></td>
+                    <td><center>{{data.doc_number}}</center></td>
+                    <td><center>{{data.subject}}</center></td>
+                    <td><center>{{data.orijen}}</center></td>
+                    <td><center>{{data.date_created}}</center></td>
+                    <td><center>{{data.recieve_by}}</center></td>
+                    <td><center>{{data.klasifikasaun}}</center></td>
+                    <td><center>{{data.category}}</center></td>
+                    <td><center>{{data.destinu}}</center></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </body>
+</html>

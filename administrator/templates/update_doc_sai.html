@@ -1,0 +1,142 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+		<header class="page-header">
+            <div class="container-fluid">
+              <h2 class="no-margin-bottom">Formulariu Karta</h2>
+            </div>
+    </header>
+          <!-- Breadcrumb-->
+    <div class="breadcrumb-holder container-fluid d-flex justify-content-between">
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'home' %}">Varanda</a></li>
+              <li class="breadcrumb-item"><a href="{% url 'documents-sai-list' %}">Lista Karta Sai</a></li>
+              <li class="breadcrumb-item active">Formulariu Karta Sai</li>
+            </ul>
+            <button class="btn btn-outline-info btn-sm mr-2 mt-3 h6" style="height: 30px;color: blue;font-size: 0.7rem" onclick=self.history.back()><span class="fa fa-angle-left"></span> Back</button>
+    </div>
+<section class="tables">   
+    <div class="container-fluid">
+                    {% if messages %}
+                        {% for message in messages %} 
+                            <div id="divmessage" class="alert alert-{{ message.tags }} alert-dismissable">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                              {{message}}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+      <div class="row">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                  <h2><p>Formulariu Adisiona Karta</p></h2>
+                 <form action="{% url 'update_doc_sai' dokumentusai.hashed %}" id="indexForm" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+
+            <div class="row col-lg-12">
+            <table class="table table-hover">
+              <tr>
+                  <td><label>Numeru Karta : </label></td>
+                  <td><input class="form-control" type="text" name="doc_number" value="{{dokumentusai.doc_number}}"></td>
+              </tr>
+              <tr>
+                  <td><label>Asuntu Karta : </label></td>
+                  <td><input class="form-control" type="text" name="subject" value="{{dokumentusai.subject}}"></td>
+              </tr>
+               <tr>
+                <td><label>Origen Karta : </label></td>  
+                <td><select class="form-control" name="dir">
+                        {% for dir in diresaun %}
+                              <option value="{{ dir.id }}" {% if dir.id == dokumentusai.orijen.id %} selected {% endif %}>{{ dir.diresaun }}</option>
+                        {% endfor %}
+                    </select></td>
+              </tr>
+              
+              <tr>
+                  <td><label>Destinu Karta : </label></td>
+                  <td><input class="form-control" type="text" name="destinu" value="{{dokumentusai.destinu}}"></td>
+              </tr>
+              <tr>
+                  <td><label>Klasifikasaun Karta : </label></td>
+                   <td><select class="form-control" name="kls">
+                    {% for kls in doc_sai %}
+                    <option value="{{kls.id}}" {% if kls.id == dokumentusai.klasifikasaun.id %} selected {% endif %}>{{kls.klasifikasaun}}</option>
+                    {% endfor %}
+                  </select></td>
+                  <!-- <td><select name="Klasifikasaun" class="form-control custom-select">
+                    <option value="">---Select Klasifikasaun---</option>
+                    <option value="Normal">Normal</option>
+                    <option value="Urgente">Urgente</option>
+                    <option value="Konfidensial">Konfidensial</option>
+                    
+                  </select></td> -->
+              </tr>
+              
+             <tr>
+                  <td><label>Kategoria : </label></td>
+                  <td><select class="form-control" name="kat">
+                    {% for kat in categories %}
+                    <option value="{{kat.id}}" {% if kat.id == dokumentusai.category.id %} selected {% endif %}>{{kat.cat_name}}</option>
+                    {% endfor %}
+                  </select></td>
+
+
+              </tr>
+                     
+              <tr>
+              <tr>
+                  <td><label>Upload File : </label></td>
+                  <td><input class="form-control" type="file" name="upload_file" value="dokumentu.file_name"></td>
+              </tr>
+            </table>
+            <br>
+            <div class="form-group text-right">
+              <button class="btn btn-sm btn-warning" onclick=self.history.back()>
+                <span class="fa fa-angle-left"></span> Cancel
+              </button>
+              <!-- <button type="submit" class="btn btn-sm btn-success">
+                <span class="fa fa-save"></span> | Save
+              </button> -->
+              <button type="submit" name="save_and_add_another" class="btn btn-sm btn-default">
+                <span class="fa fa-save"></span> | Save and Add Another
+              </button>
+              <button type="submit" name="save" class="btn btn-sm btn-success">
+                <span class="fa fa-save"></span> | Save
+              </button>
+              <!-- <a href="{% url 'documents-list' %}" class="btn btn-sm btn-warning">Cancel</a> -->
+            </div>
+          </form>
+        </div>
+         </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+<script type="text/javascript">
+  $("#kat").change(function(){
+    var url = $("#indexForm").attr("data-category-url");
+    var katid = $(this).val();
+
+    $.ajax({
+      url: url,
+      data: {
+        'kat': katid
+      },
+      success: function (data) {
+        $("#subkat").html(data);
+      }
+    });
+
+  });
+
+</script>
+
+  {% endblock %}
+
+<!--<button class="btn btn-outline-info btn-sm mr-2 mt-3 h6" style="height: 30px;color: blue;font-size: 0.7rem" onclick=self.history.back()><span class="fa fa-angle-left"></span> Back</button>
+<h1>Update Documents</h1>
+<a href="#">Update</a>-->

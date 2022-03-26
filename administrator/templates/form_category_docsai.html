@@ -1,0 +1,74 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+		<header class="page-header">
+            <div class="container-fluid">
+              <h2 class="no-margin-bottom">Formulariu Kategoria Karta Sai</h2>
+            </div>
+        </header>
+          <!-- Breadcrumb-->
+        <div class="breadcrumb-holder container-fluid d-flex justify-content-between">
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item">
+              	<a href="{% url 'home' %}">Varanda</a>
+              </li>
+              <li class="breadcrumb-item active">Formulario Kategoria Karta Sai</li>
+            </ul>
+            <button class="btn btn-outline-info btn-sm mr-2 mt-3 h6" style="height: 30px;color: blue;font-size: 0.7rem" onclick=self.history.back()>
+            	<span class="fa fa-angle-left"></span> Back</button>
+        </div>
+<section class="tables">   
+    <div class="container-fluid">
+    				{% if messages %}
+                        {% for message in messages %} 
+                            <div id="divmessage" class="alert alert-{{ message.tags }} alert-dismissable">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                              {{message}}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+		<div class="row">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                	<h2><p>Formulariu Adisiona Kategoria Karta Sai</p></h2>
+					<form method="post" action="" novalidate>
+						{% csrf_token %}
+						<table class="table table-hover">
+						{% for field in form %}
+							<tr>
+								<div class="form-group">
+									<td width="20%">
+										<label for="{{ field.id_for_label }}">{{field.label}}</label>
+									</td>
+									<td width="80%">{{field|add_class:'form-control'|append_attr:"placeholder:------"}}
+										{% for error in field.errors %}
+											<span class="help-block">{{error}}</span>
+										{% endfor %}
+									</td>
+								</div>
+							</tr>
+						{% endfor %}
+						</table>
+						<br>
+						<div class="form-group text-right">
+							<button class="btn btn-sm btn-warning" onclick=self.history.back()>
+								<span class="fa fa-angle-left"></span> Cancel
+							</button>
+							<button type="submit" name="save_and_add_another" class="btn btn-sm btn-default">
+								<span class="fa fa-save"></span> | Save and Add Another
+							</button>
+							<button type="submit" name="save" class="btn btn-sm btn-success">
+								<span class="fa fa-save"></span> | Save
+							</button>
+						</div>
+					</form>
+				</div>
+			   </div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock  %}

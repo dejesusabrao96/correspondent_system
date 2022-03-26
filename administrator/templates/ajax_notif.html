@@ -1,0 +1,15 @@
+			
+			<a id="notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link">
+				<i class="fa fa-bell-o"></i>
+				<span class="badge bg-red badge-corner">{{notif_count}}</span>
+			</a>
+                <ul aria-labelledby="notifications" class="dropdown-menu">
+					{% for data in notif_data %}
+                    <li><a rel="nofollow" href="{% url 'detail_doc_notif' data.hashed %}" class="dropdown-item"> 
+                        <div class="notification">
+                          <div class="notification-content"><i class="fa fa-tasks bg-info"></i>{{data.subject}} </div>
+                          <div class="notification-time"><small>{{data.date_created}}</small></div>
+                        </div></a>
+                    </li>
+                    {% endfor %}
+                </ul>

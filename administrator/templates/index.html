@@ -1,0 +1,225 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+          <header class="page-header">
+            <div class="container-fluid">
+              <h2 class="no-margin-bottom">Varanda</h2>
+            </div>
+          </header>
+          <!-- Dashboard Counts Section-->
+          <section class="dashboard-counts p-2">
+            <div class="container-fluid">
+                      <div style="border-radius: 4px" id="welcomemessage" class="card-text mb-2 bg-green text-center p-2 text-light">
+                        {% if request.user.is_staff %}
+                        <h1>Hi Dear {{request.user}}</h1>
+                        {% endif %}
+                        {% if request.user.is_secretary %}
+                        <h1>Hi Dear {{login_person}}</h1>
+                        {% endif %}
+                         {% if request.user.is_director %}
+                        <h1>Hi Dear {{login_person}}</h1>
+                        {% endif %}
+                        <p>Welcome to ANATL, EP-Correspondent System</p>
+                      </div>
+              <h1 class="text-center text-muted">Karta Tama</h1>
+              <div class="row p-1 bg-green has-shadow">
+                <!-- Item -->
+                <div class="col-xl-3 col-sm-6">
+                  <div class="item d-flex align-items-center">
+                    <div class="icon bg-info"><i class="icon-padnote"></i></div>
+                    <div class="title"><span>Karta Tama<br>Loron Ohin</span>
+                      <div class="progress">
+                        <div role="progressbar" style="width: {{today_docs}}%; height: 4px;" aria-valuenow="{{today_docs}}" aria-valuemin="0" aria-valuemax="100" class=" bg-green"></div>
+                      </div>
+                    </div>
+                    <div class="number"><strong>{{today_docs}}</strong></div>
+                  </div>
+                </div>
+                <!-- Item -->
+                <div class="col-xl-3 col-sm-6">
+                  <div class="item d-flex align-items-center">
+                    <div class="icon bg-violet"><i class="icon-padnote"></i></div>
+                    <div class="title"><span>Karta Tama<br>Fulan Agora</span>
+                      <div class="progress">
+                        <div role="progressbar" style="width: {{this_month_docs}}%; height: 4px;" aria-valuenow="{{this_month_docs}}" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-violet"></div>
+                      </div>
+                    </div>
+                    <div class="number"><strong>{{this_month_docs}}</strong></div>
+                  </div>
+                </div>
+                <!-- Item -->
+                <div class="col-xl-3 col-sm-6">
+                  <div class="item d-flex align-items-center">
+                    <div class="icon bg-orange"><i class="icon-padnote"></i></div>
+                    <div class="title"><span>Karta Tama<br>Tinan Agora</span>
+                      <div class="progress">
+                        <div role="progressbar" style="width: {{this_year_docs}}%; height: 4px;" aria-valuenow="{{this_year_docs}}" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-orange"></div>
+                      </div>
+                    </div>
+                    <div class="number"><strong>{{this_year_docs}}</strong></div>
+                  </div>
+                </div>
+                <!-- Item -->
+                <div class="col-xl-3 col-sm-6">
+                  <div class="item d-flex align-items-center">
+                    <div class="icon bg-danger"><i class="icon-padnote"></i></div>
+                    <div class="title"><span>Total<br>Karta Tama</span>
+                      <div class="progress">
+                        <div role="progressbar" style="width: {{tot_docs}}%; height: 4px;" aria-valuenow="{{tot_docs}}" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-danger"></div>
+                      </div>
+                    </div>
+                    <div class="number"><strong><a href="{% url 'documents-list' %}">{{tot_docs}}</a></strong></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="dashboard-counts p-1">
+            <div class="container-fluid">
+                     <!--  <div style="border-radius: 4px" id="welcomemessage" class="card-text mb-4 bg-green text-center p-4 text-light">
+                        {% if request.user.is_staff %}
+                        <h1>Hi Dear {{request.user}}</h1>
+                        {% endif %}
+                        {% if request.user.is_secretary %}
+                        <h1>Hi Dear {{login_person}}</h1>
+                        {% endif %}
+                         {% if request.user.is_director %}
+                        <h1>Hi Dear {{login_person}}</h1>
+                        {% endif %}
+                        <p>Welcome to ANATL, EP-Correspondent System</p>
+                      </div> -->
+              <h1 class="text-center text-muted">Karta Sai</h1>
+              <div class="row p-1 bg-green has-shadow">
+                <!-- Item -->
+                <div class="col-xl-3 col-sm-6">
+                  <div class="item d-flex align-items-center">
+                    <div class="icon bg-blue"><i class="icon-padnote"></i></div>
+                    <div class="title"><span>Karta Sai<br>Loron Ohin</span>
+                      <div class="progress">
+                        <div role="progressbar" style="width: {{today_doc_sai}}%; height: 4px;" aria-valuenow="{{today_doc_sai}}" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-blue"></div>
+                      </div>
+                    </div>
+                    <div class="number"><strong>{{today_doc_sai}}</strong></div>
+                  </div>
+                </div>
+                <!-- Item -->
+                <div class="col-xl-3 col-sm-6">
+                  <div class="item d-flex align-items-center">
+                    <div class="icon bg-red"><i class="icon-padnote"></i></div>
+                    <div class="title"><span>Karta Sai<br>Fulan Agora</span>
+                      <div class="progress">
+                        <div role="progressbar" style="width: {{this_month_doc_sai}}%; height: 4px;" aria-valuenow="{{this_month_doc_sai}}" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-red"></div>
+                      </div>
+                    </div>
+                    <div class="number"><strong>{{this_month_doc_sai}}</strong></div>
+                  </div>
+                </div>
+                <!-- Item -->
+                <div class="col-xl-3 col-sm-6">
+                  <div class="item d-flex align-items-center">
+                    <div class="icon bg-success"><i class="icon-padnote"></i></div>
+                    <div class="title"><span>Karta Sai<br>Tinan Agora</span>
+                      <div class="progress">
+                        <div role="progressbar" style="width: {{this_year_doc_sai}}%; height: 4px;" aria-valuenow="{{this_year_doc_sai}}" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-success"></div>
+                      </div>
+                    </div>
+                    <div class="number"><strong>{{this_year_doc_sai}}</strong></div>
+                  </div>
+                </div>
+                <!-- Item -->
+                <div class="col-xl-3 col-sm-6">
+                  <div class="item d-flex align-items-center">
+                    <div class="icon bg-dark"><i class="icon-padnote"></i></div>
+                    <div class="title"><span>Total<br>Karta Sai</span>
+                      <div class="progress">
+                        <div role="progressbar" style="width: {{tot_doc_sai}}%; height: 4px;" aria-valuenow="{{tot_doc_sai}}" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-dark"></div>
+                      </div>
+                    </div>
+                    <div class="number"><strong><a href="{% url 'documents-sai-list' %}">{{tot_doc_sai}}</a></strong></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Dashboard Header Section    -->
+          <section class="dashboard-header">
+            <div class="container-fluid">
+              <div class="row">
+                <!-- Statistics -->
+                <div class="statistics col-lg-3 col-12">
+                  <h4 class="text-center text-muted">Kategoria Karta Tama</h4><br>
+                  {% for cat in queryset_categorytama %} 
+                  <a href="{% url 'categories_doc' cat.category__hashed %}">
+                  <div class="statistic d-flex align-items-center bg-white has-shadow">
+                    <div class="icon bg-red"><i class="fa fa-tasks"></i></div>
+                    <div class="text"><h2>{{cat.category__cat_name}}</h2><small>{{cat.count}} {% if cat.count > 1 %}Karta{% else %}Karta{% endif %}</small></div>
+                  </div>
+                </a>
+                  {% endfor %}
+                </div>
+                <!-- Line Chart -->
+                <div class="chart col-lg-6 col-12">
+                  <!-- <div class="card-header bg-white d-flex align-items-center justify-content-center has-shadow"> -->
+
+                     <h4 class="text-center text-muted">Grafiku Karta</h4>
+                       <canvas id="charts_tipu_karta" data-url="{% url 'charts_tipu_karta' %}"></canvas>
+                  <!-- </div> -->
+                </div>
+                <div class="chart col-lg-3 col-12">
+                  <!-- Bar Chart   -->
+                 <h4 class="text-center text-muted">Kategoria Karta Sai</h4><br>
+                  {% for item in queryset_categorysai %} 
+                  <a href="{% url 'categories_doc_sai' item.category__hashed %}">
+                  <div class="statistic d-flex align-items-center bg-white has-shadow">
+                    <div class="icon bg-red"><i class="fa fa-tasks"></i></div>
+                    <div class="text"><h2>{{item.category__cat_name}}</h2><small>{{item.count}} {% if item.count > 1 %}Karta{% else %}Karta{% endif %}</small></div>
+                  </div>
+                  </a>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <script type="text/javascript">
+$(function() {
+    var $doc_chart  = $('#charts_tipu_karta');
+    $.ajax({
+      url: $doc_chart.data("url"),
+      success: function (data) {
+        var ctx = $doc_chart[0].getContext("2d");
+
+        new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: data.labels,
+            datasets: [
+                {
+                    data: data.data,
+                    borderWidth: 0,
+                    backgroundColor: [
+                        '#008000',
+                        "#59c2e6",
+                        "#fd7e14",
+                        "#3b65ab"
+                    ],
+                    hoverBackgroundColor: [
+                        '#008000',
+                        "#59c2e6",
+                        "#fd7e14",
+                        "#3b65ab"
+                    ]
+                }]
+            }
+    });
+
+    var pieChartExample = {
+        responsive: true
+    };
+      }
+    });
+  });
+</script>
+          <!-- Projects Section-->
+{% endblock %}

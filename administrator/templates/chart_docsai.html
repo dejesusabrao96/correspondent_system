@@ -1,0 +1,193 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+<!-- Page Header-->
+          <header class="page-header">
+            <div class="container-fluid">
+              <h2 class="no-margin-bottom">Visualizasaun Karta</h2>
+            </div>
+          </header>
+          <!-- Breadcrumb-->
+          <div class="breadcrumb-holder container-fluid d-flex justify-content-between">
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'home' %}">Varanda</a></li>
+              <li class="breadcrumb-item active">Charts</li>
+            </ul>
+            <button class="btn btn-outline-info btn-sm mr-2 mt-3 h6" style="height: 30px;color: blue;font-size: 0.7rem" onclick=self.history.back()><span class="fa fa-angle-left"></span> Back</button>
+          </div>
+          <!-- Charts Section-->
+          <section class="charts">
+            <div class="container-fluid">
+              <div class="row">
+                <!-- Line Charts-->
+                <div class="col-lg-6">
+                  <div class="line-chart-example card">
+                    <div class="card-close">
+                      <div class="dropdown">
+                        <button type="button" id="closeCard1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
+                        <div aria-labelledby="closeCard1" class="dropdown-menu dropdown-menu-right has-shadow"><a href="#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Edit</a></div>
+                      </div>
+                    </div>
+                    <div class="card-header d-flex align-items-center">
+                      <h3 class="h4">Chart Bazeia ba Kategoria Karta</h3>
+                    </div>
+                    <div class="card-body">
+                      <canvas id="pieChartDoc" data-url="{% url 'charts1' %}"></canvas>
+                    </div>
+                  </div>
+                  <div class="card-header d-flex align-items-center">
+                      <h3 class="h4">Chart Bazeia ba Kategoria Karta Sai</h3>
+                      <canvas id="pieChartDoc" data-url="{% url 'charts1' %}"></canvas>
+                    </div>
+                    <div class="card-body">
+                      <canvas id="pieChartDoc" data-url="{% url 'charts3' %}"></canvas>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                  <div class="line-chart-example card no-margin-bottom">
+                    <div class="card-close">
+                      <div class="dropdown">
+                        <button type="button" id="closeCard2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
+                        <div aria-labelledby="closeCard2" class="dropdown-menu dropdown-menu-right has-shadow"><a href="#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Edit</a></div>
+                      </div>
+                    </div>
+                    <div class="bar-chart has-shadow bg-white">
+                      <div class="card-header d-flex align-items-center">
+                      <h3 class="h4">Chart Karta Bazeia ba Tinan</h3>
+                    </div>
+                    <canvas id="barChartHome" data-url="{% url 'charts2' %}"></canvas>
+                  </div>
+                    <div class="card-header d-flex align-items-center">
+                      <h3 class="h4">Chart Bazeia ba Kategoria Karta</h3>
+                    </div>
+                    <div class="card-body">
+                      <canvas id="lineChartdoc" data-url="{% url 'charts2' %}"></canvas>
+                    </div>
+                  </div>
+
+                  <!-- <div class="line-chart-example card">
+                    <div class="card-close">
+                      <div class="dropdown">
+                        <button type="button" id="closeCard3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
+                        <div aria-labelledby="closeCard3" class="dropdown-menu dropdown-menu-right has-shadow"><a href="#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Edit</a></div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <canvas id="lineChartExample1"></canvas>
+                    </div>
+                    
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </section>
+<script type="text/javascript">
+//pie chart
+  $(function() {
+    var $doc_chart  = $('#pieChartDoc');
+    $.ajax({
+      url: $doc_chart.data("url"),
+      success: function (data) {
+        var ctx = $doc_chart[0].getContext("2d");
+
+        new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: data.labels,
+            datasets: [
+                {
+                    data: data.data,
+                    borderWidth: 0,
+                    backgroundColor: [
+                        '#008000',
+                        "#59c2e6",
+                        "#fd7e14",
+                        "#3b65ab"
+                    ],
+                    hoverBackgroundColor: [
+                        '#008000',
+                        "#59c2e6",
+                        "#fd7e14",
+                        "#3b65ab"
+                    ]
+                }]
+            }
+    });
+
+    var pieChartExample = {
+        responsive: true
+    };
+      }
+    });
+  });
+
+// line chart
+  $(function() {
+    var $doc_linechart  = $('#lineChartdoc');
+    $.ajax({
+      url: $doc_linechart.data("url"),
+      success: function (data) {
+        var ctx = $doc_linechart[0].getContext("2d");
+
+        new Chart(ctx, {
+        type: 'line',
+        options: {
+            scales: {
+                xAxes: [{
+                    display: true,
+                    gridLines: {
+                        display: false
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        max: 40,
+                        min: 0,
+                        stepSize: 5
+                    },
+                    display: true,
+                    gridLines: {
+                        display: true
+                    }
+                }]
+            },
+            legend: {
+                display: true
+            }
+        },
+        data: {
+            labels: data.labels,
+            datasets: [
+                {
+                    label: "Total Dokumentu",
+                    fill: true,
+                    lineTension: 0,
+                    backgroundColor: "transparent",
+                    borderColor: '#008000',
+                    pointBorderColor: '#2f333e',
+                    pointHoverBackgroundColor: '#008000',
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    borderWidth: 3,
+                    pointBackgroundColor: "#008000",
+                    pointBackgroundColor: "#008000",
+                    pointBorderWidth: 0,
+                    pointHoverRadius: 4,
+                    pointHoverBorderColor: "#fff",
+                    pointHoverBorderWidth: 0,
+                    pointRadius: 4,
+                    pointHitRadius: 0,
+                    data: data.data,
+                    spanGaps: false
+                }
+            ]
+        }
+    });
+
+      }
+    });
+  });
+</script>
+{% endblock %}

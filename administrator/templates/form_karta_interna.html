@@ -1,0 +1,127 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<header class="page-header">
+  <div class="container-fluid">
+    <h2 class="no-margin-bottom">Formulariu Karta Sai Interna</h2>
+  </div>
+</header>
+
+<div class="breadcrumb-holder container-fluid d-flex justify-content-between">
+  <ul class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="{% url 'home' %}">Varanda</a>
+    </li>
+   <!--  <li class="breadcrumb-item">
+      <a href="#">Lista Karta Sai Interna</a>
+    </li> -->
+    <li class="breadcrumb-item active">Formulariu Karta Sai Interna</li>
+  </ul>
+  <button class="btn btn-outline-info btn-sm mr-2 mt-3 h6" style="height: 30px;color: blue;font-size: 0.7rem"
+    onclick=self.history.back()>
+    <span class="fa fa-angle-left"></span> Back</button>
+</div>
+<section class="tables">
+  <div class="container-fluid">
+    {% if messages %}
+    {% for message in messages %}
+    <div id="divmessage" class="alert alert-{{ message.tags }} alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      {{message}}
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <h2>
+              <p>Formulariu Adisiona Karta Sai Interna</p>
+            </h2>
+            {% if page == "add" %}
+            <form action="" id="indexForm" method="POST" enctype="multipart/form-data">
+              <!-- <form action="{% url 'add-doc-sai' %}" id="indexForm" method="POST" enctype="multipart/form-data"> -->
+              {% csrf_token %}
+              <div class="row col-lg-12">
+                <table class="table table-hover">
+                  <!-- {{form}} -->
+                  <tr>
+                    <td><label>Nu. Karta : </label></td>
+                    <td><input class="form-control" type="text" name="doc_number" value="{{dokumentusai.doc_number}}">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label>Asuntu Karta : </label></td>
+                    <td><input class="form-control" type="text" name="subject" value="{{dokumentusai.subject}}"></td>
+                  </tr>
+                  <tr>
+                    <td><label>Origen Karta Sai : </label></td>
+                    <td><select name="diresaun" class="form-control custom-select">
+                        <option value="">---Select Diresaun---</option>
+                        {% for i in diresaun %}
+                        <option value="{{ i.id }}" {% if i.id == dokumentusai.orijen.id %} selected {% endif %}>
+                          {{ i.diresaun }}</option>
+                        {% endfor %}
+                      </select></td>
+                  </tr>
+
+                  <!-- <tr>
+                    <td><label>Destinasaun : </label></td>
+                    <td><input class="form-control" type="text" name="destinu" value="{{dokumentusai.destinu}}"></td>
+                  </tr> -->
+                  <tr>
+                    <td><label>Klasifikasaun Karta : </label></td>
+                    <td><select name="klasifikasaun" class="form-control custom-select">
+                        <option value="">---Select Klasifikasaun---</option>
+                        <option value="" {% if doc_sai.id == dokumentusai.klasifikasaun.id %} selected {% endif %}>
+                          {{dokumentusai.klasifikasaun}}</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Urgente">Urgente</option>
+                        <option value="Konfidensial">Konfidensial</option>
+
+                      </select></td>
+                  </tr>
+                  <tr>
+                    <td><label>Kategoria : </label></td>
+                    <td><select name="kat" class="form-control custom-select">
+                        <option value="">---Select Category---</option>
+                        {% for kat in categories %}
+                        <option value="{{kat.id}}" {% if kat.id == dokumentusai.category.id %} selected {% endif %}>
+                          {{kat.cat_name}}</option>
+                        {% endfor %}
+                      </select></td>
+                  </tr>
+                  <tr>
+                  <tr>
+                    <td><label>Upload File : </label></td>
+                    <td><input class="form-control" type="file" name="upload_file"
+                        value="dokumentusai.file_name">{{dokumentusai.file_name}}</td>
+                  </tr>
+                </table>
+                <br>
+                <div class="form-group text-right">
+                  <button class="btn btn-sm btn-warning" onclick=self.history.back()>
+                    <span class="fa fa-angle-left"></span> Cancel
+                  </button>
+
+                  <button type="submit" name="save_and_add_another" class="btn btn-sm btn-default">
+                    <span class="fa fa-save"></span> | Save and Add Another
+                  </button>
+                  <button type="submit" name="save" class="btn btn-sm btn-success">
+                    <span class="fa fa-save"></span> | Save
+                  </button>
+                </div>
+            </form>
+            {% elif page == "update" %}
+            {% csrf_token %}
+            {% crispy form %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
