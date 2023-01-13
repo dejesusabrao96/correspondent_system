@@ -158,6 +158,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'doc_files'),
 ]
+
+django_heroku.settings(locals())
+
 MEDIA_ROOT = os.path.join(BASE_DIR,'doc_files')
 
 LOGIN_REDIRECT_URL = 'home'
